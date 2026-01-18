@@ -4,7 +4,7 @@ function draw()
 		--(min{x,y}, max{x,y})
 		imgui.SetNextWindowSizeConstraints({200, 150}, {math.huge, math.huge})
 --		functionpass--tell window to startup
-		window_Shifter()---14
+		window_Shifter()---16
     end
 end
 --table setups
@@ -15,7 +15,7 @@ tablet = {}--table-t or tablet, name not yet related to use
 -- Shortening;UPPERCASING
 function window_Shifter()
 --	function pass--create styles for window
-	stylystartup()
+	stylystartup()---94
 	--start window
 	imgui.Begin("Placeholder.Shifter")
  ---shhhh
@@ -56,23 +56,24 @@ function window_Shifter()
 		---if no notes are selected; cannot continue
 		if #state.SelectedHitObjects == 0 then return end
 --		function pass
-		hallpass_section_0()---129
+		hallpass_section_0()---121
 	end
 	--check inventory for hallpass #1
 	if Hallpass == 1 then
 --		function pass
-		hallpass_section_1()---144
+		hallpass_section_1()---136
 	end
 	--check inventory for hallpass #2
 	if Hallpass == 2 then
 --		function pass
-		hallpass_section_2()---170
+		hallpass_section_2()---162
 	end
 --	function pass
-	resetbutton_section()---180
+	resetbutton_section()---172
 	---end window script
 	imgui.End()
 end
+
 
 --functions:
 ---Get ID; Give value
@@ -115,21 +116,6 @@ function stylystartup()
 	stylyV(imgui_style_var.WindowPadding, {0, 5})
 	stylyV(imgui_style_var.WindowRounding, 6)
 	stylyV(imgui_style_var.WindowTitleAlign, {.5, .5})
-end
----create enter button
-function enterbutton_section()
-	liness = 1
-	for _ in askID:gmatch("\n") do
-		liness = liness + 1
-	end
-	maxLine = 0
-	for liness in askID:gmatch("[^\n]*") do
-		maxLine = math.max(maxLine, #liness)
-	end
-		size_X = math.max(180, math.min(math.huge, (maxLine * 8)))
-		size_Y = math.max(20, math.min(math.huge, (liness * 18)))
-		_, Asking = imgui.InputTextMultiline("", askID, 100000, {size_X, size_Y})
-		state.SetValue("input", Asking)
 end
 ---hallpass sections:
 function hallpass_section_0()
