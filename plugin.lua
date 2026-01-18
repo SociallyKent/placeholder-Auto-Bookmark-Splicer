@@ -153,7 +153,7 @@ function hallpass_section_1()
 	until Fed == #state.SelectedHitObjects + 1
 	--if condisions are set and ready, contiue and create bookmark
 	if Ready == "yes" then
-		print("i!", Fed_minor .. " bookmarks added")
+		print("i!", Fed_minor-1 .. " bookmarks added")
 		actions.Perform(utils.CreateEditorAction(action_type.AddBookmarkBatch, object))
 	end
 	--give hallpass #2 access
