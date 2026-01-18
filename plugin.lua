@@ -1,5 +1,5 @@
 function draw()
-	---if unknown, don't start; fixing nil startup errors
+	--if unknown, don't start; fixing nil startup errors
     if window_Shifter then
 		--(min{x,y}, max{x,y})
 		imgui.SetNextWindowSizeConstraints({200, 150}, {math.huge, math.huge})
@@ -14,30 +14,8 @@ tablet = {}--table-t or tablet, name not yet related to use
 -- UPPERCASING;FUNCTION_VARABLE, MiddleCasing;global_Varable, downcasing;local_varable/table
 -- Shortening;UPPERCASING
 function window_Shifter()
-	--color stuff
-	stylyC(imgui_col.Text, {1, 1, 1, 1})
-	stylyC(imgui_col.Border, {.13, .07, .5, 1})
-	stylyC(imgui_col.WindowBg, {0, 0, 0, .5})
-	stylyC(imgui_col.FrameBg, {.09, .09, .09, 1})
-	stylyC(imgui_col.FrameBgHovered, {0, .82, 1, .4})
-	stylyC(imgui_col.FrameBgActive, {.26, .59, .98, .67})
-	stylyC(imgui_col.TitleBg, {.13, .07, .5, 1})
-	stylyC(imgui_col.TitleBgActive, {.14, 0.11, .36, 1})
-	stylyC(imgui_col.TitleBgCollapsed, {0, 0, 0, .5})
-	stylyC(imgui_col.ScrollbarBg, {.02, 0.02, 0.02, .5})
-	stylyC(imgui_col.ScrollbarGrab, {.09, .09, .09, 1})
-	stylyC(imgui_col.ScrollbarGrabHovered, {.13, .07, .5, 1})
-	stylyC(imgui_col.ScrollbarGrabActive, {.34, .34, .34, 1})
-	stylyC(imgui_col.Button, {.09, .09, .09, 1})
-	stylyC(imgui_col.ButtonHovered, {.34, .34, .34, 1})
-	stylyC(imgui_col.ButtonActive, {.14, .11, .36, 1})
-	stylyC(imgui_col.ResizeGrip, {.13, .07, .5, 1})
-	stylyC(imgui_col.ResizeGripHovered, {.09, .09, .09, 1})
-	stylyC(imgui_col.ResizeGripActive, {.34, .34, .34, 1})
-	--stylish stuff
-	stylyV(imgui_style_var.WindowPadding, {0, 5})
-	stylyV(imgui_style_var.WindowRounding, 6)
-	stylyV(imgui_style_var.WindowTitleAlign, {.5, .5})
+--	function pass--create styles for window
+	stylystartup()
 	--start window
 	imgui.Begin("Placeholder.Shifter")
  ---shhhh
@@ -112,6 +90,32 @@ end
 ---:styly shortcut
 
 --functions to make main easier on the eyes
+function stylystartup()
+	--color stuff
+	stylyC(imgui_col.Text, {1, 1, 1, 1})
+	stylyC(imgui_col.Border, {.13, .07, .5, 1})
+	stylyC(imgui_col.WindowBg, {0, 0, 0, .5})
+	stylyC(imgui_col.FrameBg, {.09, .09, .09, 1})
+	stylyC(imgui_col.FrameBgHovered, {0, .82, 1, .4})
+	stylyC(imgui_col.FrameBgActive, {.26, .59, .98, .67})
+	stylyC(imgui_col.TitleBg, {.13, .07, .5, 1})
+	stylyC(imgui_col.TitleBgActive, {.14, 0.11, .36, 1})
+	stylyC(imgui_col.TitleBgCollapsed, {0, 0, 0, .5})
+	stylyC(imgui_col.ScrollbarBg, {.02, 0.02, 0.02, .5})
+	stylyC(imgui_col.ScrollbarGrab, {.09, .09, .09, 1})
+	stylyC(imgui_col.ScrollbarGrabHovered, {.13, .07, .5, 1})
+	stylyC(imgui_col.ScrollbarGrabActive, {.34, .34, .34, 1})
+	stylyC(imgui_col.Button, {.09, .09, .09, 1})
+	stylyC(imgui_col.ButtonHovered, {.34, .34, .34, 1})
+	stylyC(imgui_col.ButtonActive, {.14, .11, .36, 1})
+	stylyC(imgui_col.ResizeGrip, {.13, .07, .5, 1})
+	stylyC(imgui_col.ResizeGripHovered, {.09, .09, .09, 1})
+	stylyC(imgui_col.ResizeGripActive, {.34, .34, .34, 1})
+	--stylish stuff
+	stylyV(imgui_style_var.WindowPadding, {0, 5})
+	stylyV(imgui_style_var.WindowRounding, 6)
+	stylyV(imgui_style_var.WindowTitleAlign, {.5, .5})
+end
 ---create enter button
 function enterbutton_section()
 	liness = 1
