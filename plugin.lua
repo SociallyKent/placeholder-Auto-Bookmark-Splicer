@@ -1,8 +1,11 @@
 function draw()
-	--(min{x,y}, max{x,y})
-	imgui.SetNextWindowSizeConstraints({200, 150}, {math.huge, math.huge})
---	functionpass--tell window to startup
-	window_Shifter()---14
+	---if unknown, don't start; fixing nil startup errors
+    if window_Shifter then
+		--(min{x,y}, max{x,y})
+		imgui.SetNextWindowSizeConstraints({200, 150}, {math.huge, math.huge})
+--		functionpass--tell window to startup
+		window_Shifter()---14
+    end
 end
 --table setups
 object = {}--get start times for bookmarks
@@ -43,30 +46,29 @@ function window_Shifter()
 	local askID = get("input", "")
 	---add visual buffer({x, y})
 	imgui.Dummy({100, 0})
-	imgui.SameLine()
 	--create button/s
 	button_Enter = imgui.Button("Enter", imgui_window_flags.Resize);
-	---only once player has inputed a value will delete show
+	
+	---create clear button
 	if askID ~= "" then
-		imgui.SameLine(); button_Delete = imgui.Button("Delete")
-	end
-	---askID placed after all other askID to have final say
-	if button_Delete then
-		askID = ""
+		imgui.SameLine(0, 0); 
+		button_Clear = imgui.Button("Clear")
+		--askID placed after all other askID to have final say
+		if button_Clear then askID = "" end
 	end
 	--create input auto resizeing:
-			liness = 1
-		for _ in askID:gmatch("\n") do
-			liness = liness + 1
-		end
-		---confused on how these mean, but do work quite well
-		maxLine = 0
-		for liness in askID:gmatch("[^\n]*") do
-			maxLine = math.max(maxLine, #liness)
-		end
-		size_X = math.max(180, math.min(math.huge, (maxLine * 8)))
-		size_Y = math.max(20, math.min(math.huge, (liness * 18)))
-		_, Asking = imgui.InputTextMultiline("", askID, 100000, {size_X, size_Y})
+	liness = 1;
+	for _ in askID:gmatch("\n") do
+		liness = liness + 1
+	end
+	---confused on how these mean, but do work quite well
+	maxLine = 0;
+	for liness in askID:gmatch("[^\n]*") do
+		maxLine = math.max(maxLine, #liness)
+	end
+	size_X = math.max(180, maxLine * 8);
+	size_Y = math.max(20, liness * 18);
+	_, Asking = imgui.InputTextMultiline("", askID, 100000, {size_X, size_Y})
 	--:create input auto resizing
 	--set ID to input, give varable Asking as value
 	state.SetValue("input", Asking)
@@ -128,7 +130,7 @@ end
 ---hallpass sections:
 function hallpass_section_0()
 	--remove all of table
-	repeat table.remove(words, #words) until (#words <= 0)
+	words = {}
 	--set to not ready for other scripts
 	Ready = "no"
 	--find words player inputed
@@ -156,12 +158,12 @@ function hallpass_section_1()
 		end
 	--2
 		phitObject = state.SelectedHitObjects[Fed].StartTime
-		Fed = Fed + 1
 	--3
+		Fed = Fed + 1
 	until Fed == #state.SelectedHitObjects + 1
 	--if condisions are set and ready, contiue and create bookmark
 	if Ready == "yes" then
-		print("i!", #state.SelectedHitObjects .. " bookmarks added")
+		print("i!", Fed_minor .. " bookmarks added")
 		actions.Perform(utils.CreateEditorAction(action_type.AddBookmarkBatch, object))
 	end
 	--give hallpass #2 access
@@ -171,7 +173,7 @@ function hallpass_section_2()
 	--set varable to table
 	num_Us = table.unpack(object)
 	--clear all of table
-	repeat table.remove(object, #object) until (#object <= 0)
+	object = {}
 	--reset hallpass
 	Hallpass = 0
 end
@@ -184,7 +186,7 @@ function resetbutton_section()
 	for k in string.gmatch(table.concat(imgui.GetWindowSize(), ", "), "%d+") do
 		table.insert(tablet, #tablet+1, k)
 	end
-	--manually adjust table for button position x=1 y=2
+	--manually adjust table for button position(x, y)
 	tablet = {tablet[1] - 60, tablet[2] - 40}
 	--set button position to tablet({x, y})
 	imgui.SetCursorPos(tablet)
