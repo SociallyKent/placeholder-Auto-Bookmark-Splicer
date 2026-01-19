@@ -6,4 +6,4 @@
 <img width="400" height="400" alt="Screenshot 2026-01-15 210328" src="https://github.com/user-attachments/assets/a54badca-00fe-4b70-a0c8-522abc80ca7f"/>
 V0.8
 
-###### <sup>For V1, I plan to add a built in bookmark deletor, try fix any choppines as well as make it even more friend to use. More feedback and option for explaintion of using, though is very simple so won't be toggle off rather on. Atuomatic sysble cutting, with keys that can be placed before the word to set as it is, and optional separators. More friendly editing, editing bookmarks live, with section being saved rather than needing them selected always.</sup>
+###### <sup>V1 plans to add a built in bookmark deletor, try fix any choppines as well as make it even more friend to use. More feedback and option for explaintion of using, though is very simple so won't be toggle off rather on. Atuomatic sysble cutting, with keys that can be placed before the word to set as it is, and optional separators. More friendly editing, editing bookmarks live, with section being saved rather than needing them selected always.</sup>
