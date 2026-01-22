@@ -186,15 +186,18 @@ function hallpass_section_0()
 end
 function hallpass_section_1()
 	--reset varables
-	Fed = 1 ; Fed_minor = 1 ; hitObject_minor = 1 ; table_num = 0
+	Fed = 1 ; Fed_minor = 1 ; hitObject_minor = 1 ; table_num = 0 
 	--1^insert to table, add bookmarks
 	--2^-set p-hitObject 1 note behind Fed
 	--2^cyle until varable = # selected notes
 	--1
+	print(pharsehitObject)
 		repeat
 			if pharse_Switch then
 			pharsehitObject = pharseobject[Fed]
-			else pharsehitObject = state.SelectedHitObjects[Fed].StartTime end
+			else
+			pharsehitObject = state.SelectedHitObjects[Fed].StartTime
+			end
 			hitObject = pharsehitObject
 			--if multiple hit objects are on the same time, skip all but one of them
 			if hitObject ~= hitObject_minor then
@@ -205,8 +208,7 @@ function hallpass_section_1()
 			hitObject_minor = pharsehitObject
 	--3
 			Fed = Fed + 1
-			if pharse_Switch then table_num = #pharseobject else table_num = #pharseobject end
-		until Fed == table_num + 1
+			if pharse_Switch then table_num = #pharseobject else table_num = #state.SelectedHitObjects end		until Fed == table_num + 1
 	--if condisions are set and ready, contiue and create bookmark
 	if Ready == "yes" then
 		print("i!", Fed_minor-1 .. " bookmarks added")
