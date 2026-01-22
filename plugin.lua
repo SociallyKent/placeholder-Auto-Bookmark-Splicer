@@ -8,7 +8,8 @@ function draw()
     end
 end
 --table setups
-object = {}--get start times for bookmarks
+bookmark = {}--get start times for bookmarks
+removebookmark = {}
 pharseobject = {}
 words = {}--get words for bookmarks
 tablet = {}--table-t or tablet, name not yet related to use
@@ -48,6 +49,8 @@ function window_Shifter()
 	else
 		imgui.TextDisabled("!")
 	end
+	imgui.SameLine(0,0);
+	button_Delete = imgui.Button("Delete")
 
 	--create input auto resizeing:
 	liness = 1;
@@ -111,12 +114,14 @@ function window_Shifter()
 --		function pass
 		hallpass_section_2()---162
 	end
-	
---	function pass
-	resetbutton_section()---172
-	---end window script
-	imgui.End()
-end
+	if button_Delete then
+	deletebutton_section()
+		end
+	--	function pass
+		resetbutton_section()---172
+		---end window script
+		imgui.End()
+	end
 
 
 --functions:
@@ -134,6 +139,13 @@ function get(IDENTIFIER, DEFAULTVALUE)
 	return state.GetValue(IDENTIFIER) or DEFAULTVALUE
 end
 --Shortcuts
+function betweenselectednotes()
+	local _ = {
+	state.SelectedHitObjects[1].StartTime, 
+	state.SelectedHitObjects[#state.SelectedHitObjects].StartTime
+	}
+	return _
+end
 ---styly shortcut:
 function stylyC(IMG, TABLE)
 		imgui.PushStyleColor(IMG, TABLE)
@@ -185,13 +197,14 @@ function hallpass_section_0()
 	Hallpass = 1
 end
 function hallpass_section_1()
+	deletebutton_section()
 	--reset varables
-	Fed = 1 ; Fed_minor = 1 ; hitObject_minor = 1 ; table_num = 0 
+	Fed = 1 ; Fed_minor = 1 ; hitObject_minor = 1 ; table_num = 0
 	--1^insert to table, add bookmarks
 	--2^-set p-hitObject 1 note behind Fed
 	--2^cyle until varable = # selected notes
 	--1
-	print(pharsehitObject)
+		
 		repeat
 			if pharse_Switch then
 			pharsehitObject = pharseobject[Fed]
@@ -201,31 +214,47 @@ function hallpass_section_1()
 			hitObject = pharsehitObject
 			--if multiple hit objects are on the same time, skip all but one of them
 			if hitObject ~= hitObject_minor then
-				table.insert(object, utils.CreateBookmark(hitObject, words[Fed_minor]))
+				table.insert(bookmark, utils.CreateBookmark(hitObject, words[Fed_minor]))
 				Fed_minor = Fed_minor + 1
 			end
 	--2
-			hitObject_minor = pharsehitObject
+			hitObject_minor = hitObject
 	--3
 			Fed = Fed + 1
-			if pharse_Switch then table_num = #pharseobject else table_num = #state.SelectedHitObjects end		until Fed == table_num + 1
+			if pharse_Switch then table_num = #pharseobject else table_num = #state.SelectedHitObjects end
+		until Fed >= table_num+1
 	--if condisions are set and ready, contiue and create bookmark
 	if Ready == "yes" then
-		print("i!", Fed_minor-1 .. " bookmarks added")
-		actions.Perform(utils.CreateEditorAction(action_type.AddBookmarkBatch, object))
+		deletebutton_section()
+		if #bookmark ~= 0 then print("i!", #bookmark .. " bookmarks added") end
+		actions.Perform(utils.CreateEditorAction(action_type.AddBookmarkBatch, bookmark))
 	end
 	--give hallpass #2 access
 	Hallpass = 2
 end
 function hallpass_section_2()
-	--set varable to table
-	num_Us = table.unpack(object)
 	--clear all of table
-	object = {}
+	bookmark = {}
 	--reset hallpass
 	Hallpass = 0
 end
 ---:hallpass sections
+function deletebutton_section()
+	-- if no selected objects; cannot continue
+	if #state.SelectedHitObjects == 0 or #map.Bookmarks == 0 then return end
+	--reset varables/tables
+	Fed = 1 ; removebookmark = {}
+	--find start of bookmarks first; for reduced lag 
+	for _, ad in pairs(map.Bookmarks) do
+		if ad.StartTime >= betweenselectednotes()[1]
+		and ad.StartTime <= betweenselectednotes()[2]
+		then
+			table.insert(removebookmark, #removebookmark+1, ad)
+		end
+	end
+	if #removebookmark ~= 0 then print("i!", #removebookmark .. " bookmarks removed") end
+	actions.Perform(utils.CreateEditorAction(action_type.RemoveBookmarkBatch, removebookmark))
+end
 ---create reset button
 function resetbutton_section()
 	--reset table for infinate loop
